@@ -17,7 +17,7 @@ local function channelName()
 end
 
 local function onEvent(self, event, unit, spellName, spellRank, unitName)
-	if(unit == 'player' and spells[spellName] and getChannel()) then
+	if(unit == 'player' and spells[spellName] and channelName()) then
 		if(unitName == UNKNOWN) then
 			local _, _, tempName = string.find(GameTooltipTextLeft1:GetText(), corpsetip)
 			unitName = tempName
