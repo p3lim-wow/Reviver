@@ -25,6 +25,8 @@ local function onEvent(self, event, unit, spellName, spellRank, unitName)
 			unitName = tempName
 		end
 
+		unitName = string.match(unitName, '(.+)%-(.*)') or unitName
+
 		SendChatMessage(string.format('- Casting %s on %s -', spellName, unitName), channelName())
 	end
 end
