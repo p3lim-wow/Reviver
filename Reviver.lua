@@ -1,6 +1,6 @@
 if(select(2, UnitClass('player')) ~= 'DRUID') then return DisableAddOn('Reviver') end
 
-local corpsetip = string.format('^%s$', string.gsub(CORPSE_TOOLTIP, '%%s', '([^ ]+)'))
+local corpsetip = string.gsub(CORPSE_TOOLTIP, '%%s', '([^ ]+)')
 
 local spells = {
 	[GetSpellInfo(20484)] = true, -- Rebirth
