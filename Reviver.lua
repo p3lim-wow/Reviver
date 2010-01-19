@@ -1,4 +1,4 @@
-if(select(2, UnitClass('player')) ~= 'DRUID') then return DisableAddOn('Reviver') end
+if(select(2, UnitClass('player')) ~= 'DRUID') then return DisableAddOn(...) end
 
 local corpsetip = string.gsub(CORPSE_TOOLTIP, '%%s', '([^ ]+)')
 
@@ -8,8 +8,8 @@ local spells = {
 }
 
 local function channelName()
-	local _, itype = IsInInstance()
-	if(itype == 'pvp' or itype == 'arena') then
+	local _, type = IsInInstance()
+	if(type == 'pvp' or type == 'arena') then
 		return
 	elseif(GetNumRaidMembers() > 0) then
 		return 'RAID'
@@ -18,19 +18,17 @@ local function channelName()
 	end
 end
 
-local function onEvent(self, event, unit, spellName, spellRank, unitName)
+local addon = CreateFrame('Frame')
+addon:RegisterEvent('UNIT_SPELLCAST_SENT')
+addon:SetScript('OnEvent', function(self, event, unit, spellName, spellRank, targetName)
 	if(unit == 'player' and spells[spellName] and channelName()) then
-		if(unitName == UNKNOWN) then
+		if(targetName == UNKNOWN) then
 			local _, _, tempName = string.find(GameTooltipTextLeft1:GetText(), corpsetip)
-			unitName = tempName
+			targetName = tempName
 		end
 
-		unitName = string.match(unitName, '(.+)%-(.*)') or unitName
+		targetName = string.match(targetName, '(.+)%-(.*)') or targetName
 
-		SendChatMessage(string.format('- Casting %s on %s -', spellName, unitName), channelName())
+		SendChatMessage(string.format('- Casting %s on %s -', spellName, targetName), channelName())
 	end
-end
-
-local addon = CreateFrame('Frame')
-addon:SetScript('OnEvent', onEvent)
-addon:RegisterEvent('UNIT_SPELLCAST_SENT')
+end)
