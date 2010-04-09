@@ -1,4 +1,4 @@
-if(select(2, UnitClass('player')) ~= 'DRUID') then return DisableAddOn(...) end
+if(select(2, UnitClass('player')) ~= 'DRUID') then return end
 
 local corpsetip = string.gsub(CORPSE_TOOLTIP, '%%s', '([^ ]+)')
 
